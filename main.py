@@ -8,15 +8,25 @@ def text_screen(texto):
 		print(palavra, end='', flush= True)
 		time.sleep(0.01)
 
-def sphere(N_D):
-    a = np.linspace(0, 2 * np.pi, N_D);
-    b = np.linspace(0, np.pi, N_D);
+def torus(precision, c, a):
+    U = np.linspace(0, 2*np.pi, precision)
+    V = np.linspace(0, 2*np.pi, precision)
+    U, V = np.meshgrid(U, V)
+    X = (c+a*np.cos(V))*np.cos(U)
+    Y = (c+a*np.cos(V))*np.sin(U)
+    Z = a*np.sin(V)
+    return X, Y, Z
+
+
+def sphere(precision):
+    a = np.linspace(0, 2 * np.pi, precision);
+    b = np.linspace(0, np.pi, precision);
     x = np.outer(np.cos(a), np.sin(b))
     y = np.outer(np.sin(a), np.sin(b))
     z = np.outer(np.ones(np.size(a)), np.cos(b))
     return x,y,z
 
-def sphere_plots(x,y,z, xp, yp, zp,OUTPUT):
+def geometric_plots(x,y,z, xp, yp, zp,OUTPUT):
     fig= plt.figure()
     ax  = fig.add_subplot(111, projection = '3d')
     ax.plot_surface(x,y,z,cmap="jet")#,rstride=1, cstride=1, linewidth=0, antialiased=False)
@@ -33,8 +43,10 @@ text_screen(" Wait, generate the Sphere...\n")
 x1,x2,x3 = sphere(250)
 
 text_screen(" Wait, Build the sphere and points in our surface ...\n")
-sphere_plots(x1,x2,x3,1,1,1,'Resultados_1.png')
+geometric_plots(x1,x2,x3,1,1,1,'Resultados_1.png')
 
+x4,x5,x6 = torus(250, 1.0, 0.6)
+geometric_plots(x4,x5,x6,1,1,1,'Resultados_2.png')
 
 text_screen(" =========================================== \n")
 text_screen(" ==          Desenvolvido por:            == \n")
